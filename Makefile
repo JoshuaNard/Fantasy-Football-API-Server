@@ -1,4 +1,4 @@
-.PHONY: install migrate start check test lint debug-pfn
+.PHONY: install migrate start check test lint debug-espn debug-pfn
 
 install:
 	uv sync
@@ -19,5 +19,8 @@ test:
 lint:
 	uv run pylint manage.py fantasy_api draft web_scraping tests
 
+debug-espn:
+	uv run python -m web_scraping.debug espn
+
 debug-pfn:
-	uv run python -m web_scraping.debug
+	uv run python -m web_scraping.debug pro-football-network

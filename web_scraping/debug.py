@@ -1,9 +1,10 @@
 """Developer commands for inspecting normalized scraper output."""
 
+import argparse
 from dataclasses import asdict
 import json
 
-from web_scraping.sources.pro_football_network import ProFootballNetworkAdapter
+from web_scraping.sources import ADAPTERS
 
 
 DEBUG_PLAYER_LIMIT = 10
@@ -18,7 +19,10 @@ def records_as_json(records) -> str:
 
 
 def main() -> None:
-    adapter = ProFootballNetworkAdapter()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("source", choices=sorted(ADAPTERS))
+    arguments = parser.parse_args()
+    adapter = ADAPTERS[arguments.source]()
     fetched = adapter.fetch()
     print(records_as_json(adapter.players(fetched.payload)))
 
