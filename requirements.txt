@@ -1,4 +1,0 @@
-django>=5.2,<6.0
-django-shinobi>=1.4,<2.0
-django-cors-headers>=4.7,<5.0
-python-dotenv>=1.1,<2.0

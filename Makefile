@@ -1,13 +1,17 @@
-.PHONY: install migrate start check
+.PHONY: install migrate start check test
 
 install:
-	python -m pip install -r requirements.txt
+	uv sync
+	@printf '\033[95msource .venv/bin/activate\033[0m\n'
 
 migrate:
-	python manage.py migrate
+	uv run python manage.py migrate
 
 start:
-	python manage.py runserver
+	uv run python manage.py runserver
 
 check:
-	python manage.py check
+	uv run python manage.py check
+
+test:
+	uv run pytest

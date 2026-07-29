@@ -5,12 +5,21 @@ Django + Django Shinobi API server for the `FantasyFootballDraftAssist` frontend
 ## Setup
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env
-python manage.py migrate
-python manage.py runserver
+uv sync
+cp .env.example .env
+uv run python manage.py migrate
+uv run python manage.py runserver
+```
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) first if it is not already available. uv creates and manages the project virtual environment automatically.
+
+The same commands are available through the Makefile:
+
+```bash
+make install
+make migrate
+make test
+make start
 ```
 
 API docs are available at:

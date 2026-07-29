@@ -1,0 +1,23 @@
+[project]
+name = "fantasy-football-api-server"
+version = "0.1.0"
+description = "Fantasy football data aggregation and API server"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "django>=5.2,<6.0",
+    "django-cors-headers>=4.7,<5.0",
+    "django-shinobi>=1.4,<2.0",
+    "python-dotenv>=1.1,<2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3,<9.0",
+    "pytest-django>=4.11,<5.0",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "fantasy_api.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+testpaths = ["tests"]
