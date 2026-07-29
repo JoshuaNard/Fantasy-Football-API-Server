@@ -18,6 +18,10 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
+addopts = "-v"
 DJANGO_SETTINGS_MODULE = "fantasy_api.settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 testpaths = ["tests"]
+filterwarnings = [
+    "ignore:Support for class-based `config` is deprecated.*:pydantic.PydanticDeprecatedSince20:ninja\\..*",
+]
