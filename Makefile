@@ -1,4 +1,4 @@
-.PHONY: install migrate start check test
+.PHONY: install migrate start check test lint
 
 install:
 	uv sync
@@ -15,3 +15,6 @@ check:
 
 test:
 	uv run pytest
+
+lint:
+	uv run pylint manage.py fantasy_api draft web_scraping tests

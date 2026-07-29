@@ -13,8 +13,31 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pylint>=3.3,<4.0",
+    "pylint-django>=2.6,<3.0",
     "pytest>=8.3,<9.0",
     "pytest-django>=4.11,<5.0",
+]
+
+[tool.pylint.main]
+django-settings-module = "fantasy_api.settings"
+load-plugins = ["pylint_django"]
+ignore-paths = [".venv"]
+persistent = false
+
+[tool.pylint.design]
+max-attributes = 8
+
+[tool.pylint.format]
+max-line-length = 88
+
+[tool.pylint.messages_control]
+disable = [
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "missing-module-docstring",
+    # Django intentionally delays this import until the command is invoked.
+    "import-outside-toplevel",
 ]
 
 [tool.pytest.ini_options]

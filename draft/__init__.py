@@ -1,1 +1,1 @@
-
+"""Draft API application."""

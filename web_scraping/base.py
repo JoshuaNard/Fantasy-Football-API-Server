@@ -36,7 +36,7 @@ class SourceAdapter:
     def fetch(self, timeout: int = 60) -> FetchedPayload:
         raise NotImplementedError
 
-    def players(self, payload: Any) -> list[PlayerRecord]:
+    def players(self, _payload: Any) -> list[PlayerRecord]:
         return []
 
     @staticmethod
