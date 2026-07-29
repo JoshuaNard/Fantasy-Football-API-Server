@@ -40,10 +40,14 @@ class SourceAdapter:
         return []
 
     @staticmethod
-    def fetch_json(url: str, timeout: int) -> FetchedPayload:
+    def fetch_json(
+        url: str, timeout: int, request_headers: dict[str, str] | None = None
+    ) -> FetchedPayload:
+        headers = {"Accept": "application/json", "User-Agent": USER_AGENT}
+        headers.update(request_headers or {})
         request = Request(
             url,
-            headers={"Accept": "application/json", "User-Agent": USER_AGENT},
+            headers=headers,
         )
         with urlopen(request, timeout=timeout) as response:
             body = response.read()
@@ -57,4 +61,25 @@ class SourceAdapter:
                     if key.lower() not in {"set-cookie", "authorization"}
                 },
                 payload=json.loads(body),
+            )
+
+    @staticmethod
+    def fetch_text(url: str, timeout: int) -> FetchedPayload:
+        request = Request(
+            url,
+            headers={"Accept": "text/html", "User-Agent": USER_AGENT},
+        )
+        with urlopen(request, timeout=timeout) as response:
+            body = response.read()
+            encoding = response.headers.get_content_charset() or "utf-8"
+            return FetchedPayload(
+                url=url,
+                status=response.status,
+                content_type=response.headers.get_content_type(),
+                headers={
+                    key: value
+                    for key, value in response.headers.items()
+                    if key.lower() not in {"set-cookie", "authorization"}
+                },
+                payload=body.decode(encoding),
             )

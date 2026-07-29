@@ -1,4 +1,4 @@
-.PHONY: install migrate start check test lint
+.PHONY: install migrate start check test lint debug-pfn
 
 install:
 	uv sync
@@ -18,3 +18,6 @@ test:
 
 lint:
 	uv run pylint manage.py fantasy_api draft web_scraping tests
+
+debug-pfn:
+	uv run python -m web_scraping.debug

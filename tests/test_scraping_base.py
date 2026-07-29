@@ -11,6 +11,9 @@ class FakeHeaders:
     def get_content_type(self):
         return "application/json"
 
+    def get_content_charset(self):
+        return "utf-8"
+
     def items(self):
         return [
             ("Content-Type", "application/json"),
@@ -72,3 +75,19 @@ def test_fetch_json_rejects_invalid_json(monkeypatch):
 
     with pytest.raises(json.JSONDecodeError):
         SourceAdapter.fetch_json("https://example.test/players", timeout=5)
+
+
+def test_fetch_text_decodes_html_and_filters_sensitive_headers(monkeypatch):
+    response = FakeResponse({})
+    response.body = "<p>Ja’Marr Chase</p>".encode()
+    monkeypatch.setattr(
+        web_scraping.base, "urlopen", lambda request, timeout: response
+    )
+
+    result = SourceAdapter.fetch_text("https://example.test/rankings", timeout=5)
+
+    assert result.payload == "<p>Ja’Marr Chase</p>"
+    assert result.headers == {
+        "Content-Type": "application/json",
+        "ETag": "test-etag",
+    }
