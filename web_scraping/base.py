@@ -28,6 +28,28 @@ class PlayerRecord:
     attributes: dict[str, Any] = field(default_factory=dict)
 
 
+@dataclass(frozen=True)
+# A lossless market row needs identity, subject, event, line, and selection fields.
+# pylint: disable=too-many-instance-attributes
+class MarketRecord:
+    """One sportsbook projection/prop line, retained without aggregation."""
+
+    external_id: str
+    provider: str
+    subject_type: str
+    subject_id: str
+    subject_name: str
+    team: str
+    market: str
+    line: float
+    period: str
+    event_id: str
+    event_name: str
+    event_start: str
+    selections: list[dict[str, Any]] = field(default_factory=list)
+    attributes: dict[str, Any] = field(default_factory=dict)
+
+
 class SourceAdapter:
     slug: str
     name: str
@@ -37,6 +59,9 @@ class SourceAdapter:
         raise NotImplementedError
 
     def players(self, _payload: Any) -> list[PlayerRecord]:
+        return []
+
+    def markets(self, _payload: Any) -> list[MarketRecord]:
         return []
 
     @staticmethod
